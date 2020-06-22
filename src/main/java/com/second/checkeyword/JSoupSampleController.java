@@ -5,14 +5,18 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
 
 
 @Controller
 public class JSoupSampleController {
 
     @GetMapping("/sample")
-    public String sample()throws Exception{
+    public String sample(Model model)throws IOException{
         Document doc = Jsoup.connect("https://en.wikipedia.org/").get();
         log(doc.title());
         Elements newsHeadlines = doc.select("#mp-itn b a");
@@ -20,12 +24,10 @@ public class JSoupSampleController {
             log("%s\n\t%s",
                     headline.attr("title"), headline.absUrl("href"));
         }
-        return "/sample.html";
+        return "templates/test/sample.html";
     }
     private static void log(String msg, String... vals) {
         System.out.println(String.format(msg, vals));
     }
-    @GetMapping("/sample2")
-    public void sample2(){}
 
 }
